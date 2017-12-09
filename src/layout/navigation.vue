@@ -11,8 +11,7 @@
           row
           v-if="item.heading"
           align-center
-          :key="i"
-        >
+          :key="i">
           <v-flex xs6>
             <v-subheader v-if="item.heading">
               {{ item.heading }}
@@ -23,37 +22,39 @@
           </v-flex>
         </v-layout>
         <v-list-group v-else-if="item.children" v-model="item.model" no-action>
-          <v-list-tile slot="item" @click="">
+          <v-list-tile slot="item" @click="go(item)">
             <v-list-tile-action>
               <v-icon>{{ item.model ? item.icon : item['icon-alt'] }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{ item.text }}
+                {{ child.text }}
+                <!--<router-link :to="{path:child.path}">{{ child.text }}</router-link>-->
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile
             v-for="(child, i) in item.children"
             :key="i"
-            @click=""
-          >
+            @click="go(child)">
             <v-list-tile-action v-if="child.icon">
               <v-icon>{{ child.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
+                <!--<router-link :to="{path:child.path}">{{ child.text }}</router-link>-->
                 {{ child.text }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-tile v-else @click="">
+        <v-list-tile v-else @click="go(item)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
+              <!--<router-link :to="{path:item.path}">{{ item.text }}</router-link>-->
               {{ item.text }}
             </v-list-tile-title>
           </v-list-tile-content>
@@ -65,46 +66,53 @@
 
 <script>
   import Bus from '../components/bus.js'
+  import routerItem from '../router/app.route'
+//  import router from 'vue-router'
+  console.log(routerItem)
   export default {
     name: 'app-navigation',
     data () {
       return {
         drawer: null,
-        items: [
-          {icon: 'contacts', text: 'Contacts'},
-          {icon: 'history', text: 'Frequently contacted'},
-          {icon: 'content_copy', text: 'Duplicates'},
-          {
-            icon: 'keyboard_arrow_up',
-            'icon-alt': 'keyboard_arrow_down',
-            text: 'Labels',
-            model: true,
-            children: [
-              {icon: 'add', text: 'Create label'}
-            ]
-          },
-          {
-            icon: 'keyboard_arrow_up',
-            'icon-alt': 'keyboard_arrow_down',
-            text: 'More',
-            model: false,
-            children: [
-              {text: 'Import'},
-              {text: 'Export'},
-              {text: 'Print'},
-              {text: 'Undo changes'},
-              {text: 'Other contacts'}
-            ]
-          },
-          {icon: 'settings', text: 'Settings'},
-          {icon: 'chat_bubble', text: 'Send feedback'},
-          {icon: 'help', text: 'Help'},
-          {icon: 'phonelink', text: 'App downloads'},
-          {icon: 'keyboard', text: 'Go to the old version'}
-        ]
+        items: routerItem
+//        items: [
+//          {icon: 'contacts', text: 'Contacts'},
+//          {icon: 'history', text: 'Frequently contacted'},
+//          {icon: 'content_copy', text: 'Duplicates'},
+//          {
+//            icon: 'keyboard_arrow_up',
+//            'icon-alt': 'keyboard_arrow_down',
+//            text: 'Labels',
+//            model: true,
+//            children: [
+//              {icon: 'add', text: 'Create label'}
+//            ]
+//          },
+//          {
+//            icon: 'keyboard_arrow_up',
+//            'icon-alt': 'keyboard_arrow_down',
+//            text: 'More',
+//            model: false,
+//            children: [
+//              {text: 'Import'},
+//              {text: 'Export'},
+//              {text: 'Print'},
+//              {text: 'Undo changes'},
+//              {text: 'Other contacts'}
+//            ]
+//          },
+//          {icon: 'settings', text: 'Settings'},
+//          {icon: 'chat_bubble', text: 'Send feedback'},
+//          {icon: 'help', text: 'Help'},
+//          {icon: 'phonelink', text: 'App downloads'},
+//          {icon: 'keyboard', text: 'Go to the old version'}
+//        ]
       }
     },
     methods: {
+      go: function (item) {
+        this.$router.push(item.path)
+      }
     },
     created: function () {
       let vm = this
