@@ -25,13 +25,39 @@
       <v-btn @click="openNotification()" icon>
         <v-icon>notifications</v-icon>
       </v-btn>
-      <v-btn icon large>
-        <v-avatar size="32px" tile>
-          <img
-            src="https://vuetifyjs.com/static/doc-images/logo.svg"
-            alt="Vuetify">
-        </v-avatar>
-      </v-btn>
+
+      <v-menu
+        offset-y
+        :close-on-content-click="false"
+        bottom
+        v-model="showAccount"
+      >
+        <v-btn icon slot="activator">
+          <v-avatar size="26px">
+            <img src="/src/assets/logo.png" alt="John">
+          </v-avatar>
+        </v-btn>
+        <v-card>
+          <v-toolbar flat class="transparent" height="43px">
+            <v-list class="pa-0">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>John Leider</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-list class="pt-0" dense>
+            <v-divider></v-divider>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title @click="logout()">退出</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+      </v-menu>
     </div>
   </v-toolbar>
 </template>
@@ -42,10 +68,16 @@
     name: 'app-toolbar',
     data () {
       return {
-        drawer: true
+        drawer: true,
+        showAccount: false
       }
     },
     methods: {
+      logout: function () {
+        this.axios.post('/logout').then(() => {
+          this.$router.push('/login')
+        })
+      },
       openNotification: function () {
         this.$alert('测是')
       },

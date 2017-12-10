@@ -11,14 +11,14 @@
     data () {
       return {
         columns: [
-          {name: 'groupCode', text: '类型代码'},
-          {name: 'groupName', text: '类型描述'},
-          {name: 'dictionaryName', text: '字典名称'},
-          {name: 'dictionaryCode', text: '字典代码'},
-          {name: 'sort', text: '排序'},
-          {name: 'active', text: '激活', type: 'checkbox'},
-          {name: 'isShow', text: '显示', type: 'checkbox'},
-          {name: 'createdTime', text: '创建时间'}
+          {name: 'groupCode', label: '类型代码'},
+          {name: 'groupName', label: '类型描述'},
+          {name: 'dictionaryName', label: '字典名称'},
+          {name: 'dictionaryCode', label: '字典代码'},
+          {name: 'sort', label: '排序'},
+          {name: 'active', label: '激活', type: 'checkbox'},
+          {name: 'isShow', label: '显示', type: 'checkbox'},
+          {name: 'createdTime', label: '创建时间'}
         ]
       }
     },

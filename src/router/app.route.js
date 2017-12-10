@@ -31,6 +31,7 @@ export default [
     path: '/login',
     name: 'Home',
     text: '登录',
+    notNav: true,
     component: Login
   }
 ]

@@ -68,12 +68,18 @@
 <script>
   import Bus from '../components/factory/bus.js'
   import routerItem from '../router/app.route'
+  let items = []
+  for (let nav of routerItem) {
+    if (!nav.notNav) {
+      items.push(nav)
+    }
+  }
   export default {
     name: 'app-navigation',
     data () {
       return {
         drawer: null,
-        items: routerItem
+        items: items
       }
     },
     methods: {
