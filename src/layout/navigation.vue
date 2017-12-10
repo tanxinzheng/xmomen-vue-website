@@ -4,6 +4,7 @@
     clipped
     app
     v-model="drawer"
+    width="220"
   >
     <v-list dense>
       <template v-for="(item, i) in items">
@@ -65,48 +66,14 @@
 </template>
 
 <script>
-  import Bus from '../components/bus.js'
+  import Bus from '../components/factory/bus.js'
   import routerItem from '../router/app.route'
-//  import router from 'vue-router'
-  console.log(routerItem)
   export default {
     name: 'app-navigation',
     data () {
       return {
         drawer: null,
         items: routerItem
-//        items: [
-//          {icon: 'contacts', text: 'Contacts'},
-//          {icon: 'history', text: 'Frequently contacted'},
-//          {icon: 'content_copy', text: 'Duplicates'},
-//          {
-//            icon: 'keyboard_arrow_up',
-//            'icon-alt': 'keyboard_arrow_down',
-//            text: 'Labels',
-//            model: true,
-//            children: [
-//              {icon: 'add', text: 'Create label'}
-//            ]
-//          },
-//          {
-//            icon: 'keyboard_arrow_up',
-//            'icon-alt': 'keyboard_arrow_down',
-//            text: 'More',
-//            model: false,
-//            children: [
-//              {text: 'Import'},
-//              {text: 'Export'},
-//              {text: 'Print'},
-//              {text: 'Undo changes'},
-//              {text: 'Other contacts'}
-//            ]
-//          },
-//          {icon: 'settings', text: 'Settings'},
-//          {icon: 'chat_bubble', text: 'Send feedback'},
-//          {icon: 'help', text: 'Help'},
-//          {icon: 'phonelink', text: 'App downloads'},
-//          {icon: 'keyboard', text: 'Go to the old version'}
-//        ]
       }
     },
     methods: {
