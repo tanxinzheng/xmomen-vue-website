@@ -1,17 +1,17 @@
 <template>
   <div>
     <v-snackbar
-      :timeout="timeout"
-      :color="color"
-      :top="position === 'top'"
-      :bottom="position === 'bottom'"
-      :right="position === 'right'"
-      :left="position === 'left'"
-      :multi-line="mode === 'multi-line'"
-      :vertical="mode === 'vertical'"
+      :timeout="option.timeout"
+      :color="option.color"
+      :top="option.position === 'top'"
+      :bottom="option.position === 'bottom'"
+      :right="option.position === 'right'"
+      :left="option.position === 'left'"
+      :multi-line="option.mode === 'multi-line'"
+      :vertical="option.mode === 'vertical'"
       v-model="show">
       <v-icon icon dark>info</v-icon>
-      {{ text }}
+      &nbsp;&nbsp;{{ text }}
       <v-btn dark icon @click.native="close()">
         <v-icon icon>close</v-icon>
       </v-btn>
@@ -28,10 +28,12 @@
     data () {
       return {
         show: false,
-        color: '',
-        mode: '',
-        position: 'right',
-        timeout: 1800,
+        option: {
+          color: 'info',
+          mode: '',
+          position: 'right',
+          timeout: 1800
+        },
         text: ''
       }
     },
@@ -40,8 +42,9 @@
       Bus.$on(Constant.eventKeyAlert, function (data) {
         vm.show = true
         vm.text = data.text
-        vm.color = 'info'
-        vm.option = data
+        if (data.option) {
+          vm._.extend(vm.option, data.option)
+        }
       })
     },
     methods: {

@@ -15,7 +15,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
 
-  // these devServer options should be customized in /config/index.js
+  // these devServer options should be customized in /config/router.js
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: true,
@@ -46,7 +46,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      chunks:['app'] //需要引入的chunk(模块资源)，不配置就会引入所有页面的资源(js/css),这是个很重要的属性
+    }),
+    new HtmlWebpackPlugin({
+      filename:'login.html', //指定生成的html存放路径
+      template:'login.html', //指定html模板路径
+      inject: true, //是否将js等注入页面,以及指定注入的位置'head'或'body'
+      chunks:['login'] //需要引入的chunk(模块资源)，不配置就会引入所有页面的资源(js/css),这是个很重要的属性
     }),
   ]
 })

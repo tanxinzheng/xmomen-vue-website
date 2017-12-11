@@ -5,10 +5,11 @@ import Bus from './bus'
 import Constant from './constant'
 
 export default {
-  $alert: function (text) {
+  $alert: function (text, option) {
     return new Promise((resolve, reject) => {
       Bus.$emit(Constant.eventKeyAlert, {
         text: text,
+        option: option,
         resolve: resolve,
         reject: reject
       })

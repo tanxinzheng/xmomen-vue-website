@@ -3,8 +3,8 @@
  */
 import axios from 'axios'
 import promise from 'promise.prototype.finally'
-import router from '../router/index'
 import Bus from './factory/bus'
+import Access from './factory/access'
 
 promise.shim()
 
@@ -44,15 +44,14 @@ Axios.interceptors.response.use(
     return res
   },
   error => {
-    let currentRoute = router.currentRoute
-    if (error.response.status === 401 && currentRoute.path !== '/login') {
-      router.push({
-        path: '/login'
-      })
+    if (error.response.status === 401 && error.config.url !== '/api/login') {
+      Access.redirectLoginPage()
     } else {
-      Bus.$emit('globalAlert', {
-        text: error.response.data.message
-      })
+      if (!error.config.ignoreTip) {
+        Bus.$emit('globalAlert', {
+          text: error.response.data.message
+        })
+      }
     }
     return Promise.reject(error.response)
   }

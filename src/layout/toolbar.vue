@@ -64,6 +64,7 @@
 
 <script>
   import Bus from '../components/factory/bus.js'
+  import Access from '../components/factory/access'
   export default {
     name: 'app-toolbar',
     data () {
@@ -75,7 +76,8 @@
     methods: {
       logout: function () {
         this.axios.post('/logout').then(() => {
-          this.$router.push('/login')
+          Access.logout()
+          Access.redirectLoginPage()
         })
       },
       openNotification: function () {

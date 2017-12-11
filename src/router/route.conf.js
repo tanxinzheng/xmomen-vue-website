@@ -5,6 +5,7 @@ import Login from '@/modules/login'
 
 const Home = () => import('@/modules/home.vue')
 const User = () => import('@/modules/user.vue')
+const ActionLog = () => import('@/modules/actionLog.vue')
 const Dictionary = () => import('@/modules/dictionary.vue')
 
 export default [
@@ -26,6 +27,12 @@ export default [
     name: 'Dictionary',
     text: '数据字典',
     component: Dictionary
+  },
+  {
+    path: '/action_log',
+    name: 'action_log',
+    text: '操作日志',
+    component: ActionLog
   },
   {
     path: '/login',

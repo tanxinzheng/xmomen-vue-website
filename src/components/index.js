@@ -30,7 +30,6 @@ VueMo.install = function (Vue) {
   }
   Vue.prototype._ = underscore
   for (let factory of VueMo.factorys) {
-    // underscore.mapObject()
     for (let prop in factory) {
       Vue.prototype[prop] = factory[prop]
     }

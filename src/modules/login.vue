@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import Access from '../components/factory/access'
   let vm
   export default {
     data () {
@@ -54,8 +55,7 @@
           }
         }).then(function (data) {
           if (data.data && data.data.token) {
-            window.localStorage.setItem('token', data.data.token)
-            vm.$router.push('/')
+            Access.loginHandler(data.data.token)
           }
         })
       }

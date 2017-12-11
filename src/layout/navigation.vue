@@ -67,7 +67,7 @@
 
 <script>
   import Bus from '../components/factory/bus.js'
-  import routerItem from '../router/app.route'
+  import routerItem from '../router/route.conf'
   let items = []
   for (let nav of routerItem) {
     if (!nav.notNav) {
