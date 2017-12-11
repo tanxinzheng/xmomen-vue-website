@@ -27,7 +27,6 @@
               ></v-text-field>
               <v-btn color="primary" :loading="isLoading" @click="submit()"  :disabled="!valid">登录</v-btn>
             </v-form>
-            <input placeholder="">
           </v-card-text>
         </v-card>
       </v-flex>
