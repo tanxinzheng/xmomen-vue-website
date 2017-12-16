@@ -1,7 +1,6 @@
 /**
  * Created by tanxinzheng on 17/12/7.
  */
-import Login from '@/modules/login'
 
 const Home = () => import('@/modules/home.vue')
 const User = () => import('@/modules/user.vue')
@@ -33,12 +32,5 @@ export default [
     name: 'action_log',
     text: '操作日志',
     component: ActionLog
-  },
-  {
-    path: '/login',
-    name: 'Home',
-    text: '登录',
-    notNav: true,
-    component: Login
   }
 ]

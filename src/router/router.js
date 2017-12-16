@@ -6,13 +6,17 @@ import Access from '../components/factory/access'
 Vue.use(Router)
 
 const routers = new Router({
-  mode: 'history',
-  base: __dirname,
+  // mode: 'history',
+  // base: __dirname,
   routes: routerItem
 })
 
 routers.beforeEach((to, from, next) => {
-  Access.isAuthenticated()
+  if (Access.isAuthenticated()) {
+    next()
+  } else {
+    Access.redirectLoginPage()
+  }
 })
 
 export default routers

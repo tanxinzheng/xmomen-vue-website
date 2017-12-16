@@ -34,15 +34,15 @@
       >
         <v-btn icon slot="activator">
           <v-avatar size="26px">
-            <img src="/src/assets/logo.png" alt="John">
+            <img :src="account.avatarUrl" :alt="account.username">
           </v-avatar>
         </v-btn>
         <v-card>
           <v-toolbar flat class="transparent" height="43px">
             <v-list class="pa-0">
-              <v-list-tile>
+              <v-list-tile class="list__tile--link">
                 <v-list-tile-content>
-                  <v-list-tile-title>John Leider</v-list-tile-title>
+                  <v-list-tile-title>{{account.username}}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -50,7 +50,7 @@
           <v-divider></v-divider>
           <v-list class="pt-0" dense>
             <v-divider></v-divider>
-            <v-list-tile>
+            <v-list-tile class="list__tile--link">
               <v-list-tile-content>
                 <v-list-tile-title @click="logout()">退出</v-list-tile-title>
               </v-list-tile-content>
@@ -70,8 +70,12 @@
     data () {
       return {
         drawer: true,
-        showAccount: false
+        showAccount: false,
+        account: {}
       }
+    },
+    created: function () {
+      this.getAccountInfo()
     },
     methods: {
       logout: function () {
@@ -80,8 +84,13 @@
           Access.redirectLoginPage()
         })
       },
+      getAccountInfo: function () {
+        this.axios.get('/account').then((data) => {
+          this.account = data.data
+        })
+      },
       openNotification: function () {
-        this.$alert('测是')
+
       },
       toggleSide: function () {
         this.drawer = !this.drawer

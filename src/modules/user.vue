@@ -22,7 +22,7 @@
       return {
         url: '/user',
         columns: [
-          {name: 'username', label: '用户名'},
+          {name: 'username', label: '用户名', link: true},
           {name: 'nickname', label: '姓名'},
           {name: 'email', label: '邮箱'},
           {name: 'phoneNumber', label: '手机号码'},

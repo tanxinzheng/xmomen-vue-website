@@ -5,6 +5,21 @@
         <v-toolbar-side-icon></v-toolbar-side-icon>
         <v-toolbar-title>{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-text-field
+          v-if="showSearch"
+          light
+          solo
+          prepend-icon="search"
+          @keyup.enter="loadData()"
+          @blur="loadData()"
+          v-model="filterParams.keyword"
+          placeholder="请输入用户名，姓名，邮箱，手机号码过滤"
+          :append-icon="filterParams.keyword ? 'clear' : ''"
+          :append-icon-cb="() => (filterParams.keyword = '')"
+        ></v-text-field>
+        <v-btn icon v-if="!showSearch" @click="showSearch=true">
+          <v-icon>search</v-icon>
+        </v-btn>
         <v-btn icon>
           <v-icon>attach_file</v-icon>
         </v-btn>
@@ -44,20 +59,21 @@
           <!--<v-icon>more_vert</v-icon>-->
         <!--</v-btn>-->
       </v-toolbar>
-      <div class="card__title">
-        <!--<v-form v-model="searchFormValid">-->
-        <v-flex xs12 sm3>
-          <v-text-field
-            class="input-group--hide-details"
-            label="关键词"
-            :append-icon="'search'"
-            @keyup.enter="loadData()"
-            @blur="loadData()"
-            v-model="filterParams.keyword"
-          ></v-text-field>
-        </v-flex>
-        <!--</v-form>-->
-      </div>
+      <!--<div class="card__title">-->
+        <!--&lt;!&ndash;<v-form v-model="searchFormValid">&ndash;&gt;-->
+        <!--&lt;!&ndash;<v-flex xs12 sm3>&ndash;&gt;-->
+          <!--&lt;!&ndash;<v-text-field&ndash;&gt;-->
+            <!--&lt;!&ndash;solo&ndash;&gt;-->
+            <!--&lt;!&ndash;class="input-group&#45;&#45;hide-details"&ndash;&gt;-->
+            <!--&lt;!&ndash;label="关键词"&ndash;&gt;-->
+            <!--&lt;!&ndash;:append-icon="'search'"&ndash;&gt;-->
+            <!--&lt;!&ndash;@keyup.enter="loadData()"&ndash;&gt;-->
+            <!--&lt;!&ndash;@blur="loadData()"&ndash;&gt;-->
+            <!--&lt;!&ndash;v-model="filterParams.keyword"&ndash;&gt;-->
+          <!--&lt;!&ndash;&gt;</v-text-field>&ndash;&gt;-->
+        <!--&lt;!&ndash;</v-flex>&ndash;&gt;-->
+        <!--&lt;!&ndash;</v-form>&ndash;&gt;-->
+      <!--</div>-->
       <div class="table__overflow">
         <table class="datatable table">
           <thead>
@@ -97,7 +113,8 @@
               <td v-bind:class="{'text-xs-right': col.type !== 'checkbox'}"
                   v-for="col in columns">
                 <div v-if="!col.type || col.type === 'text'">
-                  {{item[col.name]}}
+                  <a v-if="col.link" @click="view(item)">{{item[col.name]}}</a>
+                  <span v-if="!col.link">{{item[col.name]}}</span>
                 </div>
                 <div v-if="col.type === 'checkbox'" class="checkbox">
                   <v-checkbox
@@ -107,9 +124,14 @@
                 </div>
               </td>
             </tr>
-            <tr v-if="!datasource || datasource.length == 0">
-              <td colspan="100%" class="text-xs-center">
-                No Result
+            <tr>
+              <td colspan="100%" class="text-xs-center" v-if="!buttons.search.loading && datasource && datasource.length === 0">
+                <mo-empty-state></mo-empty-state>
+              </td>
+              <td colspan="100%" class="text-xs-center" v-if="buttons.search.loading">
+                <div class="mo-table-loading">
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -153,8 +175,11 @@
 
 <script>
   import _ from 'underscore'
+  import MoEmptyState from './EmptyState'
   let vm
   export default {
+    components: {
+      MoEmptyState},
     name: 'mo-table',
     created () {
       vm = this
@@ -217,7 +242,8 @@
           search: {
             loading: false
           }
-        }
+        },
+        showSearch: false
       }
     },
     watch: {
@@ -225,7 +251,12 @@
         vm.pagingInfo.pageSize = data
         vm.loadData()
       },
-      filterParams () {
+      filterParams: function (data) {
+        if (data.keyword) {
+          vm.showSearch = true
+        } else {
+          vm.showSearch = false
+        }
         vm.loadData()
       }
     },
@@ -270,6 +301,8 @@
           vm.$set(vm.checkboxAll, 'selected', false)
         }
       },
+      view () {
+      },
       add () {
         vm.$emit('add')
       },
@@ -305,11 +338,20 @@
         vm.loadData()
       },
       loadData () {
+        if (vm.buttons.search.loading) {
+          return
+        }
+        if (vm.filterParams.keyword) {
+          vm.showSearch = true
+        } else {
+          vm.showSearch = false
+        }
         // clear checkbox state
         vm.clearCheckState()
         vm.filterParams.pageSize = vm.pagingInfo.pageSize
         vm.filterParams.pageNum = vm.pagingInfo.pageNum
         vm.buttons.search.loading = true
+        vm.datasource = []
         vm.axios.get(vm.url, {
           params: vm.filterParams
         }).then((response) => {
@@ -327,5 +369,14 @@
 </script>
 
 <style>
-
+  .mo-table-loading {
+    top: 50%;
+    left: 50%;
+    height: 200px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .mo-table-loading .progress-circular {
+    margin-top: 75px;
+  }
 </style>

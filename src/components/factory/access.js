@@ -13,12 +13,15 @@ export default {
   isAuthenticated: function () {
     const token = localStorage.getItem('token')
     if (!token) {
-      window.location.href = '/login.html'
+      window.location.href = '/access.html#/login'
       return false
     }
     return true
   },
   redirectLoginPage: function () {
-    window.location.href = '/login.html'
+    window.location.href = '/access.html#/login'
+  },
+  redirectIndexPage: function () {
+    window.location.href = '/index.html'
   }
 }

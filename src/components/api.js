@@ -12,10 +12,10 @@ const Axios = axios.create({
   baseURL: '/api', // 因为我本地做了反向代理
   timeout: 10000,
   responseType: 'json',
-  withCredentials: true, // 是否允许带cookie这些
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-  }
+  withCredentials: true // 是否允许带cookie这些
+  // headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+  // }
 })
 
 // token拦截器
@@ -44,10 +44,10 @@ Axios.interceptors.response.use(
     return res
   },
   error => {
-    if (error.response.status === 401 && error.config.url !== '/api/login') {
+    if (error.response && error.response.status === 401 && error.config.url !== '/api/login') {
       Access.redirectLoginPage()
     } else {
-      if (!error.config.ignoreTip) {
+      if (!error.config.ignoreTip && error.response && error.response.data) {
         Bus.$emit('globalAlert', {
           text: error.response.data.message
         })
