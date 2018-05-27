@@ -1,16 +1,12 @@
 <template>
   <div>
+    <mo-breadcrumb></mo-breadcrumb>
     <mo-table
       :url="url"
-      @add="openAdd"
+      show-create-button="true"
+      :form-columns="formColumns"
       :columns="columns">
     </mo-table>
-    <mo-form-data
-      ref="formData"
-      :url="url"
-      :form-columns="formColumns"
-    >
-    </mo-form-data>
   </div>
 </template>
 
@@ -31,7 +27,15 @@
           {name: 'locked', label: '锁定', type: 'checkbox'}
         ],
         formColumns: [
-          {name: 'username', label: '用户名', type: 'text'},
+          {
+            name: 'username',
+            label: '用户名',
+            type: 'text',
+            rules: [
+              (v) => !!v || '请输入用户名',
+              (v) => (v && v.length >= 4 && v.length <= 10) || '请输入[6-10]位数的字符'
+            ]
+          },
           {name: 'nickname', label: '姓名', type: 'text'},
           {name: 'email', label: '邮箱', type: 'text'},
           {name: 'phoneNumber', label: '手机号码', type: 'text'},
@@ -45,6 +49,9 @@
     methods: {
       openAdd () {
         vm.$refs.formData.open()
+      },
+      openView (data) {
+        vm.$refs.formData.open(data)
       }
     }
   }

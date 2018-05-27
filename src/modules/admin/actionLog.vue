@@ -10,9 +10,9 @@
     data () {
       return {
         columns: [
-          {name: 'username', label: '用户名称'},
+          {name: 'username', label: '用户名称', type: 'avatar', itemText: 'username'},
           {name: 'actionName', label: '操作名称'},
-          {name: 'actionDate', label: '操作时间', type: 'date'},
+          {name: 'actionDate', label: '操作时间'},
           {name: 'clientIp', label: '客户端IP'},
           {name: 'targetClass', label: '类名'},
           {name: 'targetMethod', label: '方法名'}
